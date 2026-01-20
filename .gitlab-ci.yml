@@ -1,0 +1,68 @@
+---
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - when: always
+
+include:
+  - project: tools/ci-templates/common
+    ref: main
+    file: sources/jobs.yml
+
+stages:
+  - check
+  - build
+  - deploy
+
+
+###############################################################################
+# Check stage                                                                 #
+###############################################################################
+
+check_commits:
+  extends: .convco
+  stage: check
+
+
+###############################################################################
+# Build stage                                                                 #
+###############################################################################
+
+build_pdfs:
+  stage: build
+  image: aachraf/latex-cv-docker
+  tags:
+    - build:generic
+  script:
+    - make cv-en
+    - make cv-fr
+  artifacts:
+    paths:
+      - outputs/
+    expire_in: 1 week
+
+
+###############################################################################
+# Deploy stage                                                                #
+###############################################################################
+
+deploy_pdfs:
+  stage: deploy
+  image: curlimages/curl:latest
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - ls outputs/
+    - |
+       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+            --upload-file outputs/french_cv.pdf \
+            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/cv/${CI_COMMIT_TAG}/french_cv.pdf"
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+            --upload-file outputs/english_cv.pdf \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/cv/${CI_COMMIT_TAG}/english_cv.pdf"
+  needs:
+    - job: build_pdfs
+  only:
+    - tags
