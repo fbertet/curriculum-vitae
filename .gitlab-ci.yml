@@ -31,7 +31,7 @@ check_commits:
 
 build_pdfs:
   stage: build
-  image: aachraf/latex-cv-docker
+  image: aachraf/latex-cv-docker:a2bd83d3040a5772005dbd394c1e7bd5973e7ad2
   tags:
     - build:generic
   script:
@@ -49,7 +49,7 @@ build_pdfs:
 
 deploy_pdfs:
   stage: deploy
-  image: curlimages/curl:latest
+  image: curlimages/curl:8.18.0
   variables:
     GIT_STRATEGY: none
   script:
