@@ -50,6 +50,8 @@ build_pdfs:
 deploy_pdfs:
   stage: deploy
   image: curlimages/curl:8.18.0
+  tags:
+    - deploy:generic
   variables:
     GIT_STRATEGY: none
   script:
