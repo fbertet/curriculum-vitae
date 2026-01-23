@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -39,7 +39,7 @@ jobs:
 
   create-preview:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container:
       image: dpokidov/imagemagick:7.1.1-38-bookworm
 
@@ -68,7 +68,7 @@ jobs:
 
   deploy:
     needs: [build, create-preview]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     if: startsWith(github.ref, 'refs/tags/')
 
