@@ -5,7 +5,7 @@
 
 My personal CV created with LaTeX and [Awesome CV template](https://github.com/posquit0/Awesome-CV).
 
-The final result can be found on my website: [English version 🇬🇧](https://francois.bertet.dev/cv_en.pdf) | [French version 🇫🇷](https://francois.bertet.dev/cv_fr.pdf)
+Latest versions can be found here: [English version 🇬🇧](https://cv-en.bertet.dev) | [French version 🇫🇷](https://cv-fr.bertet.dev)
 
 
 ## Compilation
