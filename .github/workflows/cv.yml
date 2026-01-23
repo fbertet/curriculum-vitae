@@ -37,9 +37,11 @@ jobs:
             outputs/french_cv.pdf
           retention-days: 7
 
-  deploy:
-    runs-on: ubuntu-latest
+  create-preview:
     needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: dpokidov/imagemagick:7.1.1-38-bookworm
 
     if: startsWith(github.ref, 'refs/tags/')
 
@@ -50,10 +52,36 @@ jobs:
           name: cv-pdfs
           path: outputs
 
-      - name: Create Release
+      - name: Create PNG preview
+        run: |
+          convert -density 150 -background white -alpha remove -quality 90 outputs/english_cv.pdf[0] outputs/english_cv_preview.png
+          convert -density 150 -background white -alpha remove -quality 90 outputs/french_cv.pdf[0] outputs/french_cv_preview.png
+
+      - name: Upload Preview artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv-preview
+          path: |
+            outputs/english_cv_preview.png
+            outputs/french_cv_preview.png
+          retention-days: 7
+
+  deploy:
+    needs: [build, create-preview]
+    runs-on: ubuntu-latest
+
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             outputs/english_cv.pdf
             outputs/french_cv.pdf
+            outputs/english_cv_preview.png
+            outputs/french_cv_preview.png
           fail_on_unmatched_files: true
