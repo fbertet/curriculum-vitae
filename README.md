@@ -1,5 +1,7 @@
 # Curriculum vitae
 
+[![CI/CD pipeline](https://img.shields.io/github/actions/workflow/status/fbertet/curriculum-vitae/.github%2Fworkflows%2Fcv.yml?label=CI%2FCD%20Pipeline)](https://github.com/fbertet/curriculum-vitae/actions)
+[![Latest Release](https://img.shields.io/github/v/release/fbertet/curriculum-vitae?label=Release)](https://github.com/fbertet/curriculum-vitae/releases/latest)
 [![GitHub License](https://img.shields.io/github/license/fbertet/curriculum-vitae?label=License)](LICENSE)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
