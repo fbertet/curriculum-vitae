@@ -31,7 +31,7 @@ jobs:
       - name: Upload CVs artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: cv-pdfs
+          name: cv_pdfs
           path: |
             outputs/english_cv.pdf
             outputs/french_cv.pdf
@@ -48,19 +48,17 @@ jobs:
     steps:
       - name: Download CVs artifacts
         uses: actions/download-artifact@v4
-        with:
-          name: cv-pdfs
-          path: outputs
 
       - name: Create PNG preview
         run: |
-          convert -density 150 -background white -alpha remove -quality 90 outputs/english_cv.pdf[0] outputs/english_cv_preview.png
-          convert -density 150 -background white -alpha remove -quality 90 outputs/french_cv.pdf[0] outputs/french_cv_preview.png
+          mkdir outputs
+          convert -density 150 -background white -alpha remove -quality 90 cv_pdfs/english_cv.pdf[0] outputs/english_cv_preview.png
+          convert -density 150 -background white -alpha remove -quality 90 cv_pdfs/french_cv.pdf[0] outputs/french_cv_preview.png
 
       - name: Upload Preview artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: cv-preview
+          name: cv_previews
           path: |
             outputs/english_cv_preview.png
             outputs/french_cv_preview.png
@@ -80,8 +78,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            outputs/english_cv.pdf
-            outputs/french_cv.pdf
-            outputs/english_cv_preview.png
-            outputs/french_cv_preview.png
+            cv_pdfs/english_cv.pdf
+            cv_pdfs/french_cv.pdf
+            cv_previews/english_cv_preview.png
+            cv_previews/french_cv_preview.png
           fail_on_unmatched_files: true
