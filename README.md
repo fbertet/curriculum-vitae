@@ -43,7 +43,8 @@ When changes are pushed on `main` or on branches that have an associated PR:
 
 When a tag `v*.*` is pushed:
 - Build job runs to compile PDFs
-- Deploy job runs to create a Github release & upload PDFs as release assets
+- Create-preview to create PNG versions of the CV (Displayed above in this README)
+- Deploy job runs to create a Github release and upload PDFs and PNGs as release assets
 
 
 ## DNS Records & Redirection rules
